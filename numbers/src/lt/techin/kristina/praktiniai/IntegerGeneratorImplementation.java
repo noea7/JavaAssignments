@@ -6,7 +6,6 @@ public class IntegerGeneratorImplementation implements IntegerGenerator {
 
     private int startNumber;
     private int endNumber;
-    private int currentNumber;
 
     public IntegerGeneratorImplementation(int from, int to) {
         this.startNumber = from;

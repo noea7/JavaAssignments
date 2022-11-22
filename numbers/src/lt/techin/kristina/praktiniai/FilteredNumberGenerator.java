@@ -15,7 +15,7 @@ public class FilteredNumberGenerator implements IntegerGenerator {
     @Override
     public Integer getNext() {
         Integer nextNumber = integerGenerator.getNext();
-        while (nextNumber!=null && numberFilter.accept(nextNumber) == false){
+        while (nextNumber != null && !numberFilter.accept(nextNumber)){
             nextNumber = integerGenerator.getNext();
         }
         return nextNumber;

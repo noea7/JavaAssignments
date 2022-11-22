@@ -5,6 +5,8 @@ import lt.itakademija.exam.IntegerGenerator;
 import lt.itakademija.exam.NumberFilter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ExercisesImplementation implements Exercises {
     @Override
@@ -29,56 +31,34 @@ public class ExercisesImplementation implements Exercises {
 
     @Override
     public List<Integer> consume(Iterator<Integer> iterator) {
+
         List<Integer> integerList = new ArrayList<>();
-        while (iterator.hasNext()){
-            integerList.add(iterator.next());
-        }
+        iterator.forEachRemaining(integerList::add);
         return integerList;
     }
 
     @Override
     public int computeSumOfNumbers(int number) {
-        int sum = 0;
-        for (int i = 1; i<=number; i++) {
-            sum += i;
-        }
-        return sum;
+
+        return IntStream.rangeClosed(1,number).sum();
     }
 
     @Override
     public int computeSumOfNumbers(int number, NumberFilter numberFilter) {
-        int sum = 0;
-        for (int i = 1; i<=number; i++) {
-            if (numberFilter.accept(i)) {
-                sum += i;
-            }
-        }
-        return sum;
+
+        return IntStream.rangeClosed(1, number).filter(numberFilter::accept).sum();
     }
 
     @Override
     public List<Integer> computeNumbersUpTo(int number) {
-        List<Integer> integerList = new ArrayList<>();
-        for (int i = 1; i<number; i++) {
-            integerList.add(i);
-        }
-        return integerList;
+
+        return IntStream.range(1,number).boxed().collect(Collectors.toList());
     }
 
     @Override
     public Map<Integer, Integer> countOccurrences(List<Integer> numbers) {
-        Map<Integer,Integer> occurrences = new HashMap<>();
-        for (Integer number : numbers) {
-            if (occurrences.containsKey(number)) {
-                Integer value = occurrences.get(number);
-                value++;
-                occurrences.replace(number,value);
-            }
-            else {
-                occurrences.put(number,1);
-            }
-        }
-        return occurrences;
+
+        return numbers.stream().collect(Collectors.groupingBy(number -> number, Collectors.summingInt(number -> 1)));
     }
 
     @Override
